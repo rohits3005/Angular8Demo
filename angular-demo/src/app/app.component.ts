@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   textDir: string = "C:/";
   dirInp: string = " ";
-  dirArray: string[] = ["C:/"];
+  dirArray: any[] = [{key:"C:/", path:""}];
   cArray: string[] = ["C:/"];
   title = 'angular-demo';
 
@@ -19,7 +19,7 @@ export class AppComponent {
     const value = event.target.value;
     const cmds = value.split(" ");
     if (cmds[1].includes("mkdir")) {
-      this.dirArray.push(cmds[2]);
+      this.dirArray.push({key:this.textDir, path:cmds[2]});
     }
     else if (cmds[1].includes("cd") && cmds[2] === "..") {
       const lastDir = this.cArray.pop();
@@ -27,9 +27,11 @@ export class AppComponent {
       this.textDir = this.removeWS(this.textDir) + "/" + lastDir;
     }
     else if (cmds[1].includes("cd")) {
+      const obj = this.dirArray.filter(x => x.path === cmds[2])[0];
+      if(obj.key === this.textDir){
         this.cArray.push(cmds[2]);
         this.textDir = this.textDir + "/" + cmds[2] + " ";
-      
+      }
     }
     this.dirInp = " ";
   }
