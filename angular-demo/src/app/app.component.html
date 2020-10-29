@@ -1,0 +1,5 @@
+<div>
+  <label>{{textDir}}</label>
+  <input type="text"  [ngModel]="dirInp" (keyup.enter)="onValueChange($event)">
+  <label>{{dirArray | json}}</label>
+</div>
